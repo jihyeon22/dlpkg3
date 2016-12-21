@@ -31,10 +31,10 @@ CFLAGS	+= -DBOARD_$(BOARD)
 # Target rules
 
 CFLAGS	+= 
-#LDFLAGS	+= -lpthread -lat2
+#LDFLAGS	+= -lpthread -lat3
 
 OBJS	:= src/main.o
-APP		:= dlpkg2
+APP		:= dlpkg3
 
 all: all-before	$(APP)
 
