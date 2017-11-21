@@ -6,7 +6,6 @@ DESTDIR		:= $(CURDIR)/out
 
 PREFIX		:= /system
 BINDIR		:= $(PREFIX)/sbin
-INITRCDIR	:= /etc/init.d
 
 ###############################################################################
 # Compile
@@ -22,7 +21,7 @@ LDFLAGS	= $(EXTRA_LDFLAGS)
 #AUTOSTART	:= y
 
 ###############################################################################
-# Board
+# Board Setting
 
 BOARD	:= 
 CFLAGS	+= -DBOARD_$(BOARD)
@@ -30,21 +29,18 @@ CFLAGS	+= -DBOARD_$(BOARD)
 ###############################################################################
 # Target rules
 
-CFLAGS	+= 
-#LDFLAGS	+= -lpthread -lat3
+CFLAGS	+=
+LDFLAGS	+= -lmdsapi -llogd 
 
-OBJS	:= src/main.o
-APP		:= dlpkg3
+OBJS	:= src/update.o src/update_api.o src/main.o src/file_check.o 
+OBJS	+= src/util.o src/ftp_list.o src/pack_list.o
 
-all: all-before	$(APP)
+APP	:= dlpkg3
 
-.c.o:
-	$(CC) $(CFLAGS)  -c $< -o $@
-all-before:
-	$(eval $(call checkboard))
-		
-$(APP):	$(OBJS)
-	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
+all:		$(APP)
+
+$(APP):		$(OBJS)
+	$(Q)$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 install:	install-binary
 
@@ -59,15 +55,9 @@ uninstall:
 	$(Q)rm -vrf $(DESTDIR)$(BINDIR)/$(APP)
 
 
-###############################################################################
 # Functions
 
 define check_install_dir
 	if [ ! -d "$1" ]; then mkdir -p $1; fi
 endef
 
-define checkboard
-ifeq ($(BOARD),)
-$$(error BOARD is not found, BOARD=NEO_W100/NEO_W200)
-endif
-endef
