@@ -37,6 +37,8 @@ int main(int argc, char** argv)
 
     LOGE(LOG_TARGET, "dlpkg3 start!! [%s]\r\n", __DATE__);
 
+	// do not check.. 
+	/*
     while(1)
     {
         if ( mds_api_get_netstate(CHK_NETWORK_INTERFACE) == DEFINES_MDS_API_OK)
@@ -46,6 +48,8 @@ int main(int argc, char** argv)
         LOGE(LOG_TARGET, "dlpkg3 wait netstat!! [%s]\r\n", __DATE__);
         printf("dlpkg3 wait netstat!! [%s]\r\n", __DATE__);
     }
+	*/
+	
 	while(1)
 	{
 		is_downloaded = 0;
